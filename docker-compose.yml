@@ -1,5 +1,5 @@
 version: '3'
 services:
-  service-template:
+  res-order-service-db-installer:
     build: ./
-    image: ${REGISTRY}/mephisto2120/service-template:${TAG}
+    image: ${REGISTRY}/mephisto2120/res-order-service-db-installer:${TAG}

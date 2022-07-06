@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.tryton</groupId>
-	<artifactId>service-template</artifactId>
+	<artifactId>res-order-service-db-installer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>service-template</name>
+	<name>res-order-service-db-installer</name>
 
-	<description>REST service template</description>
+	<description>Db installer for Order Service</description>
 
 	<properties>
 		<java.version>11</java.version>

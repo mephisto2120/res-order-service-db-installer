@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: service-template
+  name: res-order-service-db-installer
 data:
   application-dev.properties: |
 
@@ -14,13 +14,13 @@ data:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: service-template
+  name: res-order-service-db-installer
   namespace: mephisto2120
 spec:
-  serviceName: service-template
+  serviceName: res-order-service-db-installer
   selector:
     matchLabels:
-      app: service-template
+      app: res-order-service-db-installer
   template:
     metadata:
       annotations:
@@ -28,16 +28,16 @@ spec:
         prometheus.io/port: "8081"
         prometheus.io/scrape: "true"
       labels:
-        app: service-template
+        app: res-order-service-db-installer
         creator: mephisto2120
         logging-type: common-json-format
     spec:
       containers:
-        - image: localhost:5000/service-template:latest
-          name: service-template
+        - image: localhost:5000/res-order-service-db-installer:latest
+          name: res-order-service-db-installer
           env:
             - name: APPLICATION_NAME
-              value: service-template
+              value: res-order-service-db-installer
             - name: ACTIVE_PROFILES
               value: dev
             - name: LOGGING_CONFIG_FILE
@@ -82,7 +82,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: service-template
+            name: res-order-service-db-installer
             defaultMode: 420
         - name: heap-dumps
           emptyDir: {}
@@ -92,11 +92,11 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: service-template
+  name: res-order-service-db-installer
 spec:
   type: NodePort
   selector:
-    app: service-template
+    app: res-order-service-db-installer
   ports:
     - protocol: TCP
       port: 8080

@@ -1,5 +1,5 @@
 app:
-  name: service-template
+  name: res-order-service-db-installer
   namespace: mephisto2120
   replicas: 1
   profile: prod
