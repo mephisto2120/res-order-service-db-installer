@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Values.app.name}}
+  labels:
+    app: {{.Values.app.name}}
+    team: {{.Values.app.namespace}}
+    mail: "mephisto2120@gmail.com"
+    owner: mephisto2120
+data:
+  application-{{.Values.app.profile}}.properties: |
+    spring.application.name={{.Values.app.name}}
+
+    logging.config=/config/log4j2-spring.xml
+  log4j2-spring.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!-- todo -->

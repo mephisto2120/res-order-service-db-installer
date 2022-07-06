@@ -1,0 +1,25 @@
+language: java
+sudo: required
+services:
+  - docker
+
+script:
+  -  mvn clean package
+
+after_success:
+  - docker build -t mephisto2120/service-template .
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push mephisto2120/service-template
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-2  #TO BE CHANGED
+  app: service-template
+  env: Servicetemplate-env
+  bucket_name: elasticbeanstalk-us-east-2-700196549790 #TO BE CHANGED
+  bucket_path: service-template-docker
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY #to be defined in travis, previously has to be generated in AWS
+  secret_access_key: $AWS_SECRET_KEY #to be defined in travis, previously has to be generated in AWS

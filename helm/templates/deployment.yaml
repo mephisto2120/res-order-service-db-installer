@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.app.name}}
+  namespace: "{{.Values.app.namespace}}"
+  labels:
+    app: {{.Values.app.name}}
+    team: {{.Values.app.namespace}}
+    mail: "mephisto2120@gmail.com"
+    owner: mephisto2120
+spec:
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app: {{.Values.app.name}}
+  template:
+    metadata:
+      labels:
+        app: {{.Values.app.name}}
+        team: {{.Values.app.namespace}}
+        creator: mephisto2120
+        logging-type: console-json
+        buildTagVersion: {{.Values.image.buildTagVersion}}
+      annotations:
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: '8081'
+        prometheus.io/scrape: 'true'
+    spec:
+      containers:
+      - image: {{.Values.app.registry}}/{{.Values.app.namespace}}/{{.Values.app.name}}:{{.Values.image.version}}
+        name: {{.Values.app.name}}
+        env:
+        - name: JAVA_OPTS
+          value: {{.Values.app.java.opts}}
+        - name: APPLICATION_NAME
+          value: {{.Values.app.name}}
+        - name: ACTIVE_PROFILES
+          value: {{.Values.app.profile}}
+        - name: LOGGING_CONFIG_FILE
+          value: /config/log4j2-spring.xml
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        ports:
+        - containerPort: 8080
+        - containerPort: 8081
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        resources:
+          requests:
+            cpu: {{.Values.app.resources.requests.cpu}}
+            memory: {{.Values.app.resources.requests.memory}}
+          limits:
+            cpu: {{.Values.app.resources.limits.cpu}}
+            memory: {{.Values.app.resources.limits.memory}}
+        livenessProbe:
+          httpGet:
+            path: {{.Values.app.probe.url}}
+            port: 8081
+          initialDelaySeconds: 120
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: {{.Values.app.probe.url}}
+            port: 8081
+          initialDelaySeconds: 120
+          periodSeconds: 10
+        imagePullPolicy: Always
+      volumes:
+        - name: config
+          configMap:
+            name: {{.Values.app.name}}
+            defaultMode: 420
+  revisionHistoryLimit: 1

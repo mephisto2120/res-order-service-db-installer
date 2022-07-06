@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: {{.Values.app.name}}
+    team: {{.Values.app.namespace}}
+    mail: "mephisto2120@gmail.com"
+    owner: mephisto2120
+  name: {{.Values.app.name}}
+  namespace: "{{$.Values.app.namespace}}"
+spec:
+  endpoints:
+  - path: /actuator/prometheus
+    port: metrics
+  selector:
+    matchLabels:
+      app: {{.Values.app.name}}

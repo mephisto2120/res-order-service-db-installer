@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tryton.template.mapper.XmlTestMapper">
+
+    <select id="testCall" resultType="int">
+        select 123
+        from `auth`.role
+        limit 1
+    </select>
+</mapper>

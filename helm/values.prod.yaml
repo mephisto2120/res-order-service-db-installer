@@ -1,0 +1,31 @@
+app:
+  name: service-template
+  namespace: mephisto2120
+  replicas: 1
+  profile: prod
+  java:
+    opts: >-
+      -XX:+UseContainerSupport
+      -XX:+HeapDumpOnOutOfMemoryError
+      -XX:HeapDumpPath=/dumps
+      -Djava.security.egd=file:/dev/./urandom
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1536Mi
+    limits:
+      cpu: 1
+      memory: 1536Mi
+  probe:
+    url: "/actuator/health"
+
+image:
+  version: -1
+  buildTagVersion: auto
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
