@@ -29,10 +29,10 @@
 --                             `phone_nr` int(25) DEFAULT NULL,
 --                             `card` int(25) DEFAULT NULL
 -- ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-CREATE DATABASE `res_order_db`;
+CREATE SCHEMA IF NOT EXISTS `res_order_db` DEFAULT CHARACTER SET utf8;
 USE `res_order_db`;
-CREATE TABLE consumer (`id` BIGINT(3) PRIMARY KEY AUTO_INCREMENT, `name` VARCHAR(255), `last_name` VARCHAR(255), `phone_no` VARCHAR(255), payment DECIMAL(5,2));
-CREATE TABLE delivery(`id` BIGINT(40) PRIMARY KEY, `delivery_info_id` BIGINT(40), UNIQUE KEY (`delivery_info_id`));
-CREATE TABLE payment(`id` BIGINT(40) PRIMARY KEY, `payment_info_id` BIGINT(40), UNIQUE KEY (`payment_info_id`));
-CREATE TABLE orders (`id` BIGINT(40) PRIMARY KEY, `payment_information_id` BIGINT(40), `delivery_information_id` BIGINT(40), FOREIGN KEY (`delivery_information_id`) REFERENCES `delivery`(`delivery_info_id`), FOREIGN KEY (`payment_information_id`) REFERENCES `payment`(`payment_info_id`));
+CREATE TABLE IF NOT EXISTS consumer (`id` BIGINT(3) PRIMARY KEY AUTO_INCREMENT, `name` VARCHAR(255), `last_name` VARCHAR(255), `phone_no` VARCHAR(255), payment DECIMAL(5,2));
+CREATE TABLE IF NOT EXISTS delivery(`id` BIGINT(40) PRIMARY KEY, `delivery_info_id` BIGINT(40), UNIQUE KEY (`delivery_info_id`));
+CREATE TABLE IF NOT EXISTS payment(`id` BIGINT(40) PRIMARY KEY, `payment_info_id` BIGINT(40), UNIQUE KEY (`payment_info_id`));
+CREATE TABLE IF NOT EXISTS orders (`id` BIGINT(40) PRIMARY KEY, `payment_information_id` BIGINT(40), `delivery_information_id` BIGINT(40), FOREIGN KEY (`delivery_information_id`) REFERENCES `delivery`(`delivery_info_id`), FOREIGN KEY (`payment_information_id`) REFERENCES `payment`(`payment_info_id`));
 
